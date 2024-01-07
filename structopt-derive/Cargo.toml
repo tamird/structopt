@@ -11,7 +11,7 @@ categories = ["command-line-interface"]
 license = "Apache-2.0/MIT"
 
 [dependencies]
-syn = { version = "1", features = ["full"] }
+syn = { version = "2", features = ["full"] }
 quote = "1"
 proc-macro2 = "1"
 heck = "0.4.0"
