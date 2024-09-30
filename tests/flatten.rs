@@ -35,7 +35,11 @@ fn flatten() {
 }
 
 #[test]
-#[should_panic]
+#[cfg_attr(
+    not(debug_assertions),
+    ignore = "only panics in debug mode, else calls std::process::exit"
+)]
+#[should_panic = "Non-unique argument name: arg is already in use"]
 fn flatten_twice() {
     #[derive(StructOpt, PartialEq, Debug)]
     struct Common {
