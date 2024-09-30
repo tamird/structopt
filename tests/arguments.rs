@@ -16,9 +16,9 @@ fn required_argument() {
         arg: i32,
     }
     assert_eq!(Opt { arg: 42 }, Opt::from_iter(&["test", "42"]));
-    assert!(Opt::clap().get_matches_from_safe(&["test"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test"]).is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "42", "24"])
+        .get_matches_from_safe(["test", "42", "24"])
         .is_err());
 }
 
@@ -31,7 +31,7 @@ fn optional_argument() {
     assert_eq!(Opt { arg: Some(42) }, Opt::from_iter(&["test", "42"]));
     assert_eq!(Opt { arg: None }, Opt::from_iter(&["test"]));
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "42", "24"])
+        .get_matches_from_safe(["test", "42", "24"])
         .is_err());
 }
 
@@ -45,7 +45,7 @@ fn argument_with_default() {
     assert_eq!(Opt { arg: 24 }, Opt::from_iter(&["test", "24"]));
     assert_eq!(Opt { arg: 42 }, Opt::from_iter(&["test"]));
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "42", "24"])
+        .get_matches_from_safe(["test", "42", "24"])
         .is_err());
 }
 

@@ -44,7 +44,7 @@ fn test_path_opt_simple() {
             option_path_1: None,
             option_path_2: Some(PathBuf::from("j.zip")),
         },
-        PathOpt::from_clap(&PathOpt::clap().get_matches_from(&[
+        PathOpt::from_clap(&PathOpt::clap().get_matches_from([
             "test", "-p", "/usr/bin", "-v", "/a/b/c", "-v", "/d/e/f", "-v", "/g/h/i", "-q",
             "j.zip",
         ]))
@@ -66,15 +66,15 @@ struct HexOpt {
 fn test_parse_hex() {
     assert_eq!(
         HexOpt { number: 5 },
-        HexOpt::from_clap(&HexOpt::clap().get_matches_from(&["test", "-n", "5"]))
+        HexOpt::from_clap(&HexOpt::clap().get_matches_from(["test", "-n", "5"]))
     );
     assert_eq!(
         HexOpt { number: 0xabcdef },
-        HexOpt::from_clap(&HexOpt::clap().get_matches_from(&["test", "-n", "abcdef"]))
+        HexOpt::from_clap(&HexOpt::clap().get_matches_from(["test", "-n", "abcdef"]))
     );
 
     let err = HexOpt::clap()
-        .get_matches_from_safe(&["test", "-n", "gg"])
+        .get_matches_from_safe(["test", "-n", "gg"])
         .unwrap_err();
     assert!(
         err.message.contains("invalid digit found in string"),
@@ -118,7 +118,7 @@ fn test_every_custom_parser() {
             d: "D"
         },
         NoOpOpt::from_clap(
-            &NoOpOpt::clap().get_matches_from(&["test", "-a=?", "-b=?", "-c=?", "-d=?"])
+            &NoOpOpt::clap().get_matches_from(["test", "-a=?", "-b=?", "-c=?", "-d=?"])
         )
     );
 }
@@ -147,7 +147,7 @@ fn test_parser_with_default_value() {
             integer: 9000,
             path: PathBuf::from("src/lib.rs"),
         },
-        DefaultedOpt::from_clap(&DefaultedOpt::clap().get_matches_from(&[
+        DefaultedOpt::from_clap(&DefaultedOpt::clap().get_matches_from([
             "test",
             "-b",
             "E²=p²c²+m²c⁴",
@@ -194,7 +194,7 @@ fn test_parser_occurrences() {
             little_unsigned: 4,
             custom: Foo(5),
         },
-        Occurrences::from_clap(&Occurrences::clap().get_matches_from(&[
+        Occurrences::from_clap(&Occurrences::clap().get_matches_from([
             "test", "-s", "--signed", "--signed", "-l", "-rrrr", "-cccc", "--custom",
         ]))
     );
@@ -225,10 +225,10 @@ fn test_custom_bool() {
         bitset: Vec<bool>,
     }
 
-    assert!(Opt::clap().get_matches_from_safe(&["test"]).is_err());
-    assert!(Opt::clap().get_matches_from_safe(&["test", "-d"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test", "-d"]).is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-dfoo"])
+        .get_matches_from_safe(["test", "-dfoo"])
         .is_err());
     assert_eq!(
         Opt {
@@ -302,9 +302,9 @@ fn test_cstring() {
         #[structopt(parse(try_from_str = CString::new))]
         c_string: CString,
     }
-    assert!(Opt::clap().get_matches_from_safe(&["test"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test"]).is_err());
     assert_eq!(Opt::from_iter(&["test", "bla"]).c_string.to_bytes(), b"bla");
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "bla\0bla"])
+        .get_matches_from_safe(["test", "bla\0bla"])
         .is_err());
 }

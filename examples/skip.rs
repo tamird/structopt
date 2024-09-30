@@ -19,16 +19,11 @@ pub struct Opt {
     s: String,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Default, PartialEq)]
 enum Kind {
     A,
+    #[default]
     B,
-}
-
-impl Default for Kind {
-    fn default() -> Self {
-        return Kind::B;
-    }
 }
 
 fn main() {

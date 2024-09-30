@@ -697,7 +697,7 @@ fn gen_from_subcommand(
         let sub_name = attrs.cased_name();
         let variant_name = &variant.ident;
         let constructor_block = match variant.fields {
-            Named(ref fields) => gen_constructor(&fields.named, &attrs),
+            Named(ref fields) => gen_constructor(&fields.named, attrs),
             Unit => quote!(),
             Unnamed(ref fields) if fields.unnamed.len() == 1 => {
                 let ty = &fields.unnamed[0];
@@ -790,7 +790,7 @@ fn split_structopt_generics_for_impl(
                 }
             }
         }
-        return false;
+        false
     }
 
     struct TraitBoundAmendments {
@@ -874,7 +874,7 @@ fn impl_structopt_for_struct(
     attrs: &[Attribute],
     generics: &Generics,
 ) -> TokenStream {
-    let (impl_generics, ty_generics, where_clause) = split_structopt_generics_for_impl(&generics);
+    let (impl_generics, ty_generics, where_clause) = split_structopt_generics_for_impl(generics);
 
     let basic_clap_app_gen = gen_clap_struct(attrs);
     let augment_clap = gen_augment_clap(fields, &basic_clap_app_gen.attrs);
@@ -931,7 +931,7 @@ fn impl_structopt_for_enum(
     attrs: &[Attribute],
     generics: &Generics,
 ) -> TokenStream {
-    let (impl_generics, ty_generics, where_clause) = split_structopt_generics_for_impl(&generics);
+    let (impl_generics, ty_generics, where_clause) = split_structopt_generics_for_impl(generics);
 
     let basic_clap_app_gen = gen_clap_enum(attrs);
     let clap_tokens = basic_clap_app_gen.tokens;

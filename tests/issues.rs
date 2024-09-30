@@ -24,18 +24,14 @@ fn issue_151() {
         a: Opt,
     }
 
-    assert!(Cli::clap().get_matches_from_safe(&["test"]).is_err());
+    assert!(Cli::clap().get_matches_from_safe(["test"]).is_err());
+    assert!(Cli::clap().get_matches_from_safe(["test", "--foo"]).is_ok());
+    assert!(Cli::clap().get_matches_from_safe(["test", "--bar"]).is_ok());
     assert!(Cli::clap()
-        .get_matches_from_safe(&["test", "--foo"])
-        .is_ok());
-    assert!(Cli::clap()
-        .get_matches_from_safe(&["test", "--bar"])
-        .is_ok());
-    assert!(Cli::clap()
-        .get_matches_from_safe(&["test", "--zebra"])
+        .get_matches_from_safe(["test", "--zebra"])
         .is_err());
     assert!(Cli::clap()
-        .get_matches_from_safe(&["test", "--foo", "--bar"])
+        .get_matches_from_safe(["test", "--foo", "--bar"])
         .is_ok());
 }
 
@@ -57,16 +53,16 @@ fn issue_289() {
     }
 
     assert!(Args::clap()
-        .get_matches_from_safe(&["test", "some-command", "test-command"])
+        .get_matches_from_safe(["test", "some-command", "test-command"])
         .is_ok());
     assert!(Args::clap()
-        .get_matches_from_safe(&["test", "some", "test-command"])
+        .get_matches_from_safe(["test", "some", "test-command"])
         .is_ok());
     assert!(Args::clap()
-        .get_matches_from_safe(&["test", "some-command", "test"])
+        .get_matches_from_safe(["test", "some-command", "test"])
         .is_ok());
     assert!(Args::clap()
-        .get_matches_from_safe(&["test", "some", "test"])
+        .get_matches_from_safe(["test", "some", "test"])
         .is_ok());
 }
 

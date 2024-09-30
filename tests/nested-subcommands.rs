@@ -36,7 +36,7 @@ struct Opt2 {
 
 #[test]
 fn test_no_cmd() {
-    let result = Opt::clap().get_matches_from_safe(&["test"]);
+    let result = Opt::clap().get_matches_from_safe(["test"]);
     assert!(result.is_err());
 
     assert_eq!(
@@ -45,7 +45,7 @@ fn test_no_cmd() {
             verbose: 0,
             cmd: None
         },
-        Opt2::from_clap(&Opt2::clap().get_matches_from(&["test"]))
+        Opt2::from_clap(&Opt2::clap().get_matches_from(["test"]))
     );
 }
 
@@ -57,7 +57,7 @@ fn test_fetch() {
             verbose: 3,
             cmd: Sub::Fetch {}
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-vvv", "fetch"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-vvv", "fetch"]))
     );
     assert_eq!(
         Opt {
@@ -65,7 +65,7 @@ fn test_fetch() {
             verbose: 0,
             cmd: Sub::Fetch {}
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--force", "fetch"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--force", "fetch"]))
     );
 }
 
@@ -77,7 +77,7 @@ fn test_add() {
             verbose: 0,
             cmd: Sub::Add {}
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "add"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "add"]))
     );
     assert_eq!(
         Opt {
@@ -85,19 +85,19 @@ fn test_add() {
             verbose: 2,
             cmd: Sub::Add {}
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-vv", "add"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-vv", "add"]))
     );
 }
 
 #[test]
 fn test_badinput() {
-    let result = Opt::clap().get_matches_from_safe(&["test", "badcmd"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "badcmd"]);
     assert!(result.is_err());
-    let result = Opt::clap().get_matches_from_safe(&["test", "add", "--verbose"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "add", "--verbose"]);
     assert!(result.is_err());
-    let result = Opt::clap().get_matches_from_safe(&["test", "--badopt", "add"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "--badopt", "add"]);
     assert!(result.is_err());
-    let result = Opt::clap().get_matches_from_safe(&["test", "add", "--badopt"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "add", "--badopt"]);
     assert!(result.is_err());
 }
 
@@ -135,9 +135,7 @@ fn test_subsubcommand() {
                 cmd: Sub3::Quux {}
             }
         },
-        Opt3::from_clap(
-            &Opt3::clap().get_matches_from(&["test", "--all", "foo", "lib.rs", "quux"])
-        )
+        Opt3::from_clap(&Opt3::clap().get_matches_from(["test", "--all", "foo", "lib.rs", "quux"]))
     );
 }
 

@@ -9,7 +9,7 @@ fn test_single_word_enum_variant_is_default_renamed_into_kebab_case() {
 
     assert_eq!(
         Opt::Command { foo: 0 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "command", "0"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "command", "0"]))
     );
 }
 
@@ -22,7 +22,7 @@ fn test_multi_word_enum_variant_is_renamed() {
 
     assert_eq!(
         Opt::FirstCommand { foo: 0 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "first-command", "0"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "first-command", "0"]))
     );
 }
 
@@ -37,7 +37,7 @@ fn test_standalone_long_generates_kebab_case() {
 
     assert_eq!(
         Opt { FOO_OPTION: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foo-option"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foo-option"]))
     );
 }
 
@@ -51,7 +51,7 @@ fn test_custom_long_overwrites_default_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foo"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foo"]))
     );
 }
 
@@ -65,7 +65,7 @@ fn test_standalone_long_uses_previous_defined_custom_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foo"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foo"]))
     );
 }
 
@@ -79,7 +79,7 @@ fn test_standalone_long_ignores_afterwards_defined_custom_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foo-option"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foo-option"]))
     );
 }
 
@@ -94,7 +94,7 @@ fn test_standalone_short_generates_kebab_case() {
 
     assert_eq!(
         Opt { FOO_OPTION: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-f"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-f"]))
     );
 }
 
@@ -108,7 +108,7 @@ fn test_custom_short_overwrites_default_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-o"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-o"]))
     );
 }
 
@@ -122,7 +122,7 @@ fn test_standalone_short_uses_previous_defined_custom_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-o"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-o"]))
     );
 }
 
@@ -136,7 +136,7 @@ fn test_standalone_short_ignores_afterwards_defined_custom_name() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-f"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-f"]))
     );
 }
 
@@ -150,7 +150,7 @@ fn test_standalone_long_uses_previous_defined_casing() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--FOO_OPTION"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--FOO_OPTION"]))
     );
 }
 
@@ -164,7 +164,7 @@ fn test_standalone_short_uses_previous_defined_casing() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-F"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-F"]))
     );
 }
 
@@ -179,7 +179,7 @@ fn test_standalone_long_works_with_verbatim_casing() {
 
     assert_eq!(
         Opt { _fOO_oPtiON: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--_fOO_oPtiON"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--_fOO_oPtiON"]))
     );
 }
 
@@ -193,7 +193,7 @@ fn test_standalone_short_works_with_verbatim_casing() {
 
     assert_eq!(
         Opt { _foo: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-_"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-_"]))
     );
 }
 
@@ -208,7 +208,7 @@ fn test_rename_all_is_propagated_from_struct_to_fields() {
 
     assert_eq!(
         Opt { foo: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--FOO"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--FOO"]))
     );
 }
 
@@ -231,7 +231,7 @@ fn test_rename_all_is_not_propagated_from_struct_into_flattened() {
         Opt {
             foo: Foo { foo: true }
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foo"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foo"]))
     );
 }
 
@@ -256,7 +256,7 @@ fn test_rename_all_is_not_propagated_from_struct_into_subcommand() {
         Opt {
             foo: Foo::Command { foo: true }
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "command", "--foo"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "command", "--foo"]))
     );
 }
 
@@ -274,12 +274,12 @@ fn test_rename_all_is_propagated_from_enum_to_variants_and_their_fields() {
 
     assert_eq!(
         Opt::FirstVariant,
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "FIRST_VARIANT"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "FIRST_VARIANT"]))
     );
 
     assert_eq!(
         Opt::SecondVariant { foo: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "SECOND_VARIANT", "--FOO"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "SECOND_VARIANT", "--FOO"]))
     );
 }
 
@@ -301,12 +301,12 @@ fn test_rename_all_is_propagation_can_be_overridden() {
 
     assert_eq!(
         Opt::FirstVariant { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "first-variant", "--foo-option"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "first-variant", "--foo-option"]))
     );
 
     assert_eq!(
         Opt::SecondVariant { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "SECOND_VARIANT", "--foo-option"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "SECOND_VARIANT", "--foo-option"]))
     );
 }
 
@@ -320,7 +320,7 @@ fn test_lower_is_renamed() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--foooption"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--foooption"]))
     );
 }
 
@@ -334,6 +334,6 @@ fn test_upper_is_renamed() {
 
     assert_eq!(
         Opt { foo_option: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--FOOOPTION"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--FOOOPTION"]))
     );
 }
