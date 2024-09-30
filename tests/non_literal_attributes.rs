@@ -43,7 +43,7 @@ fn test_slice() {
             files: Vec::new(),
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-l", "1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-l", "1"]))
     );
     assert_eq!(
         Opt {
@@ -52,7 +52,7 @@ fn test_slice() {
             files: Vec::new(),
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--level", "1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--level", "1"]))
     );
     assert_eq!(
         Opt {
@@ -61,7 +61,7 @@ fn test_slice() {
             files: Vec::new(),
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--set-level", "1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--set-level", "1"]))
     );
     assert_eq!(
         Opt {
@@ -70,7 +70,7 @@ fn test_slice() {
             files: Vec::new(),
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--lvl", "1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--lvl", "1"]))
     );
 }
 
@@ -83,7 +83,7 @@ fn test_multi_args() {
             files: vec!["file".to_string()],
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-l", "1", "file"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-l", "1", "file"]))
     );
     assert_eq!(
         Opt {
@@ -93,14 +93,14 @@ fn test_multi_args() {
             values: vec![1],
         },
         Opt::from_clap(
-            &Opt::clap().get_matches_from(&["test", "-l", "1", "--values", "1", "--", "FILE"]),
+            &Opt::clap().get_matches_from(["test", "-l", "1", "--values", "1", "--", "FILE"]),
         )
     );
 }
 
 #[test]
 fn test_multi_args_fail() {
-    let result = Opt::clap().get_matches_from_safe(&["test", "-l", "1", "--", "FILE"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "-l", "1", "--", "FILE"]);
     assert!(result.is_err());
 }
 
@@ -113,9 +113,9 @@ fn test_bool() {
             files: vec![],
             values: vec![],
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-l", "1", "--x=1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-l", "1", "--x=1"]))
     );
-    let result = Opt::clap().get_matches_from_safe(&["test", "-l", "1", "--x", "1"]);
+    let result = Opt::clap().get_matches_from_safe(["test", "-l", "1", "--x", "1"]);
     assert!(result.is_err());
 }
 
@@ -133,15 +133,15 @@ struct HexOpt {
 fn test_parse_hex_function_path() {
     assert_eq!(
         HexOpt { number: 5 },
-        HexOpt::from_clap(&HexOpt::clap().get_matches_from(&["test", "-n", "5"]))
+        HexOpt::from_clap(&HexOpt::clap().get_matches_from(["test", "-n", "5"]))
     );
     assert_eq!(
         HexOpt { number: 0xabcdef },
-        HexOpt::from_clap(&HexOpt::clap().get_matches_from(&["test", "-n", "abcdef"]))
+        HexOpt::from_clap(&HexOpt::clap().get_matches_from(["test", "-n", "abcdef"]))
     );
 
     let err = HexOpt::clap()
-        .get_matches_from_safe(&["test", "-n", "gg"])
+        .get_matches_from_safe(["test", "-n", "gg"])
         .unwrap_err();
     assert!(
         err.message.contains("invalid digit found in string"),

@@ -17,19 +17,19 @@ fn required_option() {
     }
     assert_eq!(
         Opt { arg: 42 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a42"]))
     );
     assert_eq!(
         Opt { arg: 42 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "42"]))
     );
     assert_eq!(
         Opt { arg: 42 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--arg", "42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--arg", "42"]))
     );
-    assert!(Opt::clap().get_matches_from_safe(&["test"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test"]).is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a42", "-a24"])
+        .get_matches_from_safe(["test", "-a42", "-a24"])
         .is_err());
 }
 
@@ -42,14 +42,14 @@ fn optional_option() {
     }
     assert_eq!(
         Opt { arg: Some(42) },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a42"]))
     );
     assert_eq!(
         Opt { arg: None },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a42", "-a24"])
+        .get_matches_from_safe(["test", "-a42", "-a24"])
         .is_err());
 }
 
@@ -62,14 +62,14 @@ fn option_with_default() {
     }
     assert_eq!(
         Opt { arg: 24 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a24"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a24"]))
     );
     assert_eq!(
         Opt { arg: 42 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a42", "-a24"])
+        .get_matches_from_safe(["test", "-a42", "-a24"])
         .is_err());
 }
 
@@ -82,14 +82,14 @@ fn option_with_raw_default() {
     }
     assert_eq!(
         Opt { arg: 24 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a24"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a24"]))
     );
     assert_eq!(
         Opt { arg: 42 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a42", "-a24"])
+        .get_matches_from_safe(["test", "-a42", "-a24"])
         .is_err());
 }
 
@@ -102,15 +102,15 @@ fn options() {
     }
     assert_eq!(
         Opt { arg: vec![24] },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a24"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a24"]))
     );
     assert_eq!(
         Opt { arg: vec![] },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert_eq!(
         Opt { arg: vec![24, 42] },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a24", "--arg", "42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a24", "--arg", "42"]))
     );
 }
 
@@ -133,7 +133,7 @@ fn option_from_str() {
     #[derive(Debug, PartialEq)]
     struct A;
 
-    impl<'a> From<&'a str> for A {
+    impl From<&str> for A {
         fn from(_: &str) -> A {
             A
         }
@@ -161,18 +161,18 @@ fn optional_argument_for_optional_option() {
         Opt {
             arg: Some(Some(42))
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a42"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a42"]))
     );
     assert_eq!(
         Opt { arg: Some(None) },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
     assert_eq!(
         Opt { arg: None },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a42", "-a24"])
+        .get_matches_from_safe(["test", "-a42", "-a24"])
         .is_err());
 }
 
@@ -192,42 +192,42 @@ fn two_option_options() {
             arg: Some(Some(42)),
             field: Some(Some("f".into()))
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a42", "--field", "f"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a42", "--field", "f"]))
     );
     assert_eq!(
         Opt {
             arg: Some(Some(42)),
             field: Some(None)
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a42", "--field"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a42", "--field"]))
     );
     assert_eq!(
         Opt {
             arg: Some(None),
             field: Some(None)
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "--field"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "--field"]))
     );
     assert_eq!(
         Opt {
             arg: Some(None),
             field: Some(Some("f".into()))
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "--field", "f"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "--field", "f"]))
     );
     assert_eq!(
         Opt {
             arg: None,
             field: Some(None)
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--field"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--field"]))
     );
     assert_eq!(
         Opt {
             arg: None,
             field: None
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
 }
 
@@ -240,57 +240,57 @@ fn optional_vec() {
     }
     assert_eq!(
         Opt { arg: Some(vec![1]) },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "1"]))
     );
 
     assert_eq!(
         Opt {
             arg: Some(vec![1, 2])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a1", "-a2"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a1", "-a2"]))
     );
 
     assert_eq!(
         Opt {
             arg: Some(vec![1, 2])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a1", "-a2", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a1", "-a2", "-a"]))
     );
 
     assert_eq!(
         Opt {
             arg: Some(vec![1, 2])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a1", "-a", "-a2"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a1", "-a", "-a2"]))
     );
 
     assert_eq!(
         Opt {
             arg: Some(vec![1, 2])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "1", "2"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "1", "2"]))
     );
 
     assert_eq!(
         Opt {
             arg: Some(vec![1, 2, 3])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "1", "2", "-a", "3"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "1", "2", "-a", "3"]))
     );
 
     assert_eq!(
         Opt { arg: Some(vec![]) },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
 
     assert_eq!(
         Opt { arg: Some(vec![]) },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "-a"]))
     );
 
     assert_eq!(
         Opt { arg: None },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
 }
 
@@ -310,7 +310,7 @@ fn two_optional_vecs() {
             arg: Some(vec![1]),
             b: Some(vec![])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "1", "-b"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "1", "-b"]))
     );
 
     assert_eq!(
@@ -318,7 +318,7 @@ fn two_optional_vecs() {
             arg: Some(vec![1]),
             b: Some(vec![])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "-b", "-a1"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "-b", "-a1"]))
     );
 
     assert_eq!(
@@ -326,11 +326,11 @@ fn two_optional_vecs() {
             arg: Some(vec![1, 2]),
             b: Some(vec![1, 2])
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a1", "-a2", "-b1", "-b2"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a1", "-a2", "-b1", "-b2"]))
     );
 
     assert_eq!(
         Opt { arg: None, b: None },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
 }

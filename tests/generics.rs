@@ -1,3 +1,22 @@
+// Produces compiler errors in the presence of paw, e.g.:
+//
+// error[E0107]: missing generics for struct `generic_struct_flatten::Outer`
+//   --> tests/generics.rs:11:12
+//   |
+// 11 |     struct Outer<T: StructOpt> {
+//   |            ^^^^^ expected 1 generic argument
+//   |
+// note: struct defined here, with 1 generic parameter: `T`
+//  --> tests/generics.rs:11:12
+//   |
+// 11 |     struct Outer<T: StructOpt> {
+//   |            ^^^^^ -
+// help: add missing generic argument
+//   |
+// 11 |     struct Outer<T><T: StructOpt> {
+//   |                 +++
+#![cfg(not(feature = "paw"))]
+
 use structopt::StructOpt;
 
 #[test]

@@ -17,14 +17,11 @@ suggestions = ["clap/suggestions"]
 color = ["clap/color"]
 wrap_help = ["clap/wrap_help"]
 yaml = ["clap/yaml"]
-lints = ["clap/lints"]
+lints = []
 debug = ["clap/debug"]
 no_cargo = ["clap/no_cargo"]
 doc = ["clap/doc"]
 paw = ["structopt-derive/paw", "paw_dep"]
-
-[badges]
-travis-ci = { repository = "TeXitoi/structopt" }
 
 [dependencies]
 clap = { version = "2.33", default-features = false }

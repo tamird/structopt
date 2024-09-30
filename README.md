@@ -1,6 +1,8 @@
 # StructOpt
 
-[![Build status](https://travis-ci.com/TeXitoi/structopt.svg?branch=master)](https://app.travis-ci.com/github/TeXitoi/structopt) [![](https://img.shields.io/crates/v/structopt.svg)](https://crates.io/crates/structopt) [![](https://docs.rs/structopt/badge.svg)](https://docs.rs/structopt)
+[![Build status](../../actions/workflows/ci.yml/badge.svg)](../../actions)
+[![](https://img.shields.io/crates/v/structopt.svg)](https://crates.io/crates/structopt)
+[![](https://docs.rs/structopt/badge.svg)](https://docs.rs/structopt)
 [![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
 
 Parse command line arguments by defining a struct.  It combines [clap](https://crates.io/crates/clap) with custom derive.
@@ -15,7 +17,7 @@ See the [structopt -> clap migration guide](https://github.com/clap-rs/clap/blob
 
 ## Documentation
 
-Find it on [Docs.rs](https://docs.rs/structopt).  You can also check the [examples](https://github.com/TeXitoi/structopt/tree/master/examples) and the [changelog](https://github.com/TeXitoi/structopt/blob/master/CHANGELOG.md).
+Find it on [Docs.rs](https://docs.rs/structopt).  You can also check the [examples](examples) and the [changelog](CHANGELOG.md).
 
 ## Example
 
@@ -139,7 +141,7 @@ Opt {
 
 ## StructOpt rustc version policy
 
-- Minimum rustc version modification must be specified in the [changelog](https://github.com/TeXitoi/structopt/blob/master/CHANGELOG.md) and in the [travis configuration](https://github.com/TeXitoi/structopt/blob/master/.travis.yml).
+- Minimum rustc version modification must be specified in the [changelog](CHANGELOG.md) and in the [CI configuration](.github/workflows/ci.yml).
 - Contributors can increment minimum rustc version without any justification if the new version is required by the latest version of one of StructOpt's dependencies (`cargo update` will not fail on StructOpt).
 - Contributors can increment minimum rustc version if the library user experience is improved.
 

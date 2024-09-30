@@ -18,25 +18,25 @@ fn unique_flag() {
 
     assert_eq!(
         Opt { alice: false },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert_eq!(
         Opt { alice: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
     assert_eq!(
         Opt { alice: true },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--alice"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--alice"]))
     );
-    assert!(Opt::clap().get_matches_from_safe(&["test", "-i"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test", "-i"]).is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a", "foo"])
+        .get_matches_from_safe(["test", "-a", "foo"])
         .is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a", "-a"])
+        .get_matches_from_safe(["test", "-a", "-a"])
         .is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a", "--alice"])
+        .get_matches_from_safe(["test", "-a", "--alice"])
         .is_err());
 }
 
@@ -52,27 +52,27 @@ fn multiple_flag() {
 
     assert_eq!(
         Opt { alice: 0, bob: 0 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert_eq!(
         Opt { alice: 1, bob: 0 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
     assert_eq!(
         Opt { alice: 2, bob: 0 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "-a"]))
     );
     assert_eq!(
         Opt { alice: 2, bob: 2 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a", "--alice", "-bb"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a", "--alice", "-bb"]))
     );
     assert_eq!(
         Opt { alice: 3, bob: 1 },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-aaa", "--bob"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-aaa", "--bob"]))
     );
-    assert!(Opt::clap().get_matches_from_safe(&["test", "-i"]).is_err());
+    assert!(Opt::clap().get_matches_from_safe(["test", "-i"]).is_err());
     assert!(Opt::clap()
-        .get_matches_from_safe(&["test", "-a", "foo"])
+        .get_matches_from_safe(["test", "-a", "foo"])
         .is_err());
 }
 
@@ -90,19 +90,19 @@ fn non_bool_flags() {
         bob: std::sync::atomic::AtomicBool,
     }
 
-    let falsey = Opt::from_clap(&Opt::clap().get_matches_from(&["test"]));
+    let falsey = Opt::from_clap(&Opt::clap().get_matches_from(["test"]));
     assert!(!falsey.alice.load(std::sync::atomic::Ordering::Relaxed));
     assert!(!falsey.bob.load(std::sync::atomic::Ordering::Relaxed));
 
-    let alice = Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]));
+    let alice = Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]));
     assert!(alice.alice.load(std::sync::atomic::Ordering::Relaxed));
     assert!(!alice.bob.load(std::sync::atomic::Ordering::Relaxed));
 
-    let bob = Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-b"]));
+    let bob = Opt::from_clap(&Opt::clap().get_matches_from(["test", "-b"]));
     assert!(!bob.alice.load(std::sync::atomic::Ordering::Relaxed));
     assert!(bob.bob.load(std::sync::atomic::Ordering::Relaxed));
 
-    let both = Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-b", "-a"]));
+    let both = Opt::from_clap(&Opt::clap().get_matches_from(["test", "-b", "-a"]));
     assert!(both.alice.load(std::sync::atomic::Ordering::Relaxed));
     assert!(both.bob.load(std::sync::atomic::Ordering::Relaxed));
 }
@@ -122,41 +122,41 @@ fn combined_flags() {
             alice: false,
             bob: 0
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test"]))
     );
     assert_eq!(
         Opt {
             alice: true,
             bob: 0
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
     assert_eq!(
         Opt {
             alice: true,
             bob: 0
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-a"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-a"]))
     );
     assert_eq!(
         Opt {
             alice: false,
             bob: 1
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-b"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-b"]))
     );
     assert_eq!(
         Opt {
             alice: true,
             bob: 1
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "--alice", "--bob"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "--alice", "--bob"]))
     );
     assert_eq!(
         Opt {
             alice: true,
             bob: 4
         },
-        Opt::from_clap(&Opt::clap().get_matches_from(&["test", "-bb", "-a", "-bb"]))
+        Opt::from_clap(&Opt::clap().get_matches_from(["test", "-bb", "-a", "-bb"]))
     );
 }

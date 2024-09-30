@@ -59,17 +59,12 @@ fn skip_2() {
 
 #[test]
 fn skip_enum() {
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, Default, PartialEq)]
     #[allow(unused)]
     enum Kind {
         A,
+        #[default]
         B,
-    }
-
-    impl Default for Kind {
-        fn default() -> Self {
-            return Kind::B;
-        }
     }
 
     #[derive(StructOpt, Debug, PartialEq)]

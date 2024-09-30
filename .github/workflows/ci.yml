@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+  schedule:
+    - cron: 00 4 * * *
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        rust:
+          # https://github.com/unicode-rs/unicode-width/commit/afab363383557c39942706c9441a5670e321b4a0
+          # added a call to `wrapping_add_signed`, added in 1.66.0.
+          - 1.66.0
+          - stable
+          - beta
+          - nightly
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: clippy,rustfmt
+          toolchain: ${{ matrix.rust }}
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: taplo-cli
+      - run: taplo fmt --check
+      - run: cargo fmt --all -- --check
+      # Only exercise none/all feature sets; else we'd run the builder out of disk space.
+      - run: cargo build
+      - run: cargo build --all-features
+      # See https://github.com/dtolnay/trybuild/commit/4fc90bf70f4744a250dfb8804479f88c188de41b.
+      #
+      # Cannot build tests below 1.70.0.
+      - run: cargo clippy --all-targets --workspace -- --deny warnings --allow dead_code # TODO: remove?
+        if: matrix.rust != '1.66.0'
+      - run: cargo clippy --all-targets --workspace --all-features -- --deny warnings --allow dead_code # TODO: remove?
+        if: matrix.rust != '1.66.0'
+      - run: cargo test --workspace --no-default-features
+        if: matrix.rust != '1.66.0'
+      - run: cargo test --workspace --all-features
+        if: matrix.rust != '1.66.0'
